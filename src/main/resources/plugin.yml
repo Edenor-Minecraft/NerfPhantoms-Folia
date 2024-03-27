@@ -1,0 +1,37 @@
+name: nerfphantoms-folia
+version: '${project.version}'
+main: org.altronmaxx.nerfphantomsfolia.Nerfphantoms_folia
+api-version: 1.19
+folia-supported: true
+commands:
+  nerfphantoms:
+    usage: /nerfphantoms <help | togglespawn | kill | reload>
+    permission-message: You don't have permission.
+permissions:
+  nerfphantoms.*:
+    description: Gives access to all NerfPhantoms commands
+    default: op
+    children:
+      nerfphantoms.all: true
+  nerfphantoms.all:
+    description: Gives access to all NerfPhantoms commands
+    children:
+      nerfphantoms.reload: true
+      nerfphantoms.kill: true
+      nerfphantoms.disablespawn.self: true
+      nerfphantoms.disablespawn.others: true
+  nerfphantoms.reload:
+    description: Reload plugin config
+    default: false
+  nerfphantoms.kill:
+    description: Kill all phantoms in current world
+    default: false
+  nerfphantoms.disablespawn.self:
+    description: Command to disable phantom spawning for self
+    default: op
+  nerfphantoms.disablespawn.others:
+    description: Command to disable phantom spawning for other players
+    default: op
+  nerfphantoms.disablespawn.auto:
+    description: Phantom spawn disable active by default for player
+    default: false
