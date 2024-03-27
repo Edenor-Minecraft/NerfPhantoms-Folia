@@ -7,7 +7,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -36,9 +35,9 @@ public class PhantomUtils {
         if (persist && Nerfphantoms_folia.getInstance().storage != null) {
             try {
                 Nerfphantoms_folia.getInstance().storage.setPhantomDisabled(player.getUniqueId(), !isDisabled);
-            } catch (SQLException throwables) {
+            } catch (SQLException e) {
                 Nerfphantoms_folia.getInstance().logger.info("Error while updating player data in storage");
-                throwables.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
 
@@ -46,10 +45,9 @@ public class PhantomUtils {
     }
     public static int killAllPhantoms(World world) {
         Collection<Phantom> phantoms = world.getEntitiesByClass(Phantom.class);
-        int n = 0;
+        int n = phantoms.size();
         for (Phantom phantom : phantoms) {
             phantom.remove();
-            n++;
         }
         return n;
     }

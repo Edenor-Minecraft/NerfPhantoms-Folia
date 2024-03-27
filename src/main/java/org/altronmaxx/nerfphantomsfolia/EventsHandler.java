@@ -10,7 +10,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.SQLException;
 
@@ -64,9 +63,9 @@ public class EventsHandler implements Listener {
             if (Nerfphantoms_folia.getInstance().storage.getPhantomDisabled(player.getUniqueId())) {
                 PhantomUtils.togglePhantomSpawn(player, false);
             }
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             Nerfphantoms_folia.getInstance().logger.info("Error while fetching player data from storage");
-            throwables.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

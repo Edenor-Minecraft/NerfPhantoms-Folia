@@ -1,5 +1,5 @@
 name: nerfphantoms-folia
-version: '${project.version}'
+version: '1.0-SNAPSHOT'
 main: org.altronmaxx.nerfphantomsfolia.Nerfphantoms_folia
 api-version: 1.19
 folia-supported: true

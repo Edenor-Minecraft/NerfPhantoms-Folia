@@ -2,17 +2,12 @@ package org.altronmaxx.nerfphantomsfolia;
 
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.Statistic;
-import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 public class StatResetTask implements ScheduledTask, Runnable {
 
-    private Nerfphantoms_folia plugin;
+    private final Nerfphantoms_folia plugin;
 
     StatResetTask(Nerfphantoms_folia plugin) {
         this.plugin = plugin;

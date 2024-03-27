@@ -1,11 +1,10 @@
 package org.altronmaxx.nerfphantomsfolia;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class NerfphantomsCommand implements CommandExecutor {
 
@@ -18,18 +17,18 @@ public class NerfphantomsCommand implements CommandExecutor {
         }
 
     }
-    public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
+    public void execute(@NotNull CommandSender sender, @NotNull String[] args) {
         if (args.length == 0) {
-            return false;
+            return;
         }
 
-        String permissionMessage = pluginCommand.getPermissionMessage();
+        Component permissionMessage = pluginCommand.permissionMessage();
         assert (permissionMessage != null);
 
         if (args[0].equalsIgnoreCase("reload")) {
             if (!sender.hasPermission("nerfphantoms.reload")) {
                 sender.sendMessage(permissionMessage);
-                return true;
+                return;
             }
             Nerfphantoms_folia.getInstance().reloadConfig();
             Nerfphantoms_folia.getInstance().config = Nerfphantoms_folia.getInstance().getConfig();
@@ -38,61 +37,59 @@ public class NerfphantomsCommand implements CommandExecutor {
             if (sender instanceof Player) {
                 sender.sendMessage("Reloaded configuration");
             }
-            return true;
+            return;
         }
 
         if (args[0].equalsIgnoreCase("kill")) {
             if (!sender.hasPermission("nerfphantoms.kill")) {
                 sender.sendMessage(permissionMessage);
-                return true;
+                return;
             }
             if (!(sender instanceof Player)) {
                 sender.sendMessage("Command has to be executed by a player");
-                return true;
+                return;
             }
             Player player = (Player) sender;
             int n = PhantomUtils.killAllPhantoms(player.getWorld());
             player.sendMessage("Killed " + n + " phantoms.");
-            return true;
+            return;
         }
 
         if (args[0].equalsIgnoreCase("togglespawn")) {
             if (args.length == 1) {
                 if (!sender.hasPermission("nerfphantoms.disablespawn.self")) {
                     sender.sendMessage(permissionMessage);
-                    return true;
+                    return;
                 }
                 if (!(sender instanceof Player)) {
                     sender.sendMessage("Command has to be executed by a player");
-                    return true;
+                    return;
                 }
                 Player player = (Player) sender;
                 boolean state = PhantomUtils.togglePhantomSpawn(player);
                 player.sendMessage((state ? "Disabled" : "Enabled")
-                        + " phantom spawn for " + player.getDisplayName() + ".");
-                return true;
+                        + " phantom spawn for " + player.getName() + ".");
+                return;
             }
             if (!sender.hasPermission("nerfphantoms.disablespawn.others")) {
                 sender.sendMessage(permissionMessage);
-                return true;
+                return;
             }
             Player victim = Bukkit.getPlayer(args[1]);
             if (victim == null) {
                 sender.sendMessage("Unable to find player!");
-                return true;
+                return;
             }
             boolean state = PhantomUtils.togglePhantomSpawn(victim);
             sender.sendMessage((state ? "Disabled" : "Enabled")
-                    + " phantom spawn for " + victim.getDisplayName() + ".");
-            return true;
+                    + " phantom spawn for " + victim.getName() + ".");
         }
 
-        return false;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        execute(commandSender, s, strings);
+        execute(commandSender, strings);
         return true;
     }
 }

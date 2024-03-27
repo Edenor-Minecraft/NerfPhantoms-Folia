@@ -70,7 +70,6 @@ public class Storage {
             statement = this.connection.prepareStatement(sql);
             statement.setString(1, uuid.toString());
             statement.executeUpdate();
-            return;
         }
     }
 }
