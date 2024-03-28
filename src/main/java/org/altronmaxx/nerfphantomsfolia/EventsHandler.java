@@ -50,16 +50,21 @@ public class EventsHandler implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        if(Nerfphantoms_folia.getInstance().storage == null) {
+            return;
+        }
+
         if (player.hasPermission("nerfphantoms.disablespawn.auto")) {
             PhantomUtils.togglePhantomSpawn(player, false);
             return;
         }
 
-        if(Nerfphantoms_folia.getInstance().storage == null) {
-            return;
-        }
-        // Check storage for disabled player setting (async)
         try {
+            if (!player.hasPermission("nerfphantoms.disablespawn.self")){
+                Nerfphantoms_folia.getInstance().storage.setPhantomDisabled(player.getUniqueId(), false);
+                return;
+            }
+
             if (Nerfphantoms_folia.getInstance().storage.getPhantomDisabled(player.getUniqueId())) {
                 PhantomUtils.togglePhantomSpawn(player, false);
             }
